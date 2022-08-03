@@ -9,7 +9,7 @@ public class MyException extends java.lang.Exception { // 异常信息
         this.type = type;
     }
 
-    public String getMsg() {
+    public String GetMsg() {
         return "[" + type.name() + ']' + msg;
     }
 }

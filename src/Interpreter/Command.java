@@ -3,18 +3,18 @@ package Interpreter;
 import java.util.ArrayList;
 
 public class Command {
-    private String command;
+    private CmdClass command;
     private ArrayList<String> args;
 
     public Command() {
-        command = "";
+        command = CmdClass.empty;
         args    = new ArrayList<>();
     }
-    public void setCommand(String command) {
+    public void SetCommand(CmdClass command) {
         this.command = command;
     }
-
-    public void insertArgs(String arg) {
+    public void InsertArgs(String arg) {
         this.args.add(arg);
     }
+    public CmdClass GetCommand() { return this.command; }
 }
