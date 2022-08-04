@@ -1,0 +1,71 @@
+<1> dir - list directory contents
+SYNOPSIS
+    dir [ FILE ]
+
+<2> myshell - execute a shell file
+SYNOPSIS
+    myshell [ FILE ]
+
+<3> echo - display a line of text
+SYNPOSIS
+    echo [ STRING ]
+
+<4> exec - execute a file
+SYNOPSIS
+    exec COMMAND [ ARGS ]
+
+<5> cd - change the working directory
+SYNOPSIS
+    cd [ DIR ]
+
+<6> bg - run jobs in the background
+SYNOPSIS
+    bg [ JOB_ID ]
+
+<7> fg - run jobs in the foreground
+SYNOPSIS
+    fg [ JOB_ID ]
+
+<8> pwd - print name of current/working directory
+SYNOPSIS
+    pwd [ DIR ]
+
+<9> test - test whether an variable has been set
+SYNOPSIS
+    test [ VAR ]
+
+<10> set - set parameters
+SYNOPSIS
+    set [ VAR ] [ VAL ]
+
+<11> time - display the current time
+SYNOPSIS
+    time
+
+<12> jobs - display status of jobs in the current session
+SYNOPSIS
+    jobs
+
+<13> umask - display the current mask in octal notation
+SYNOPSIS
+    umask
+
+<14> environ - user environment
+SYNOPSIS
+    environ
+
+<15> exit - exit shell
+SYNOPSIS
+    exit
+
+<16> help - get the manual
+SYNOPSIS
+    help
+
+<17> clear - clear the terminal screen
+SYNOPSIS
+    clear
+
+<18> more help - file perusal filter for manual
+SYNOPSIS
+    more help

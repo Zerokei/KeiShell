@@ -1,12 +1,13 @@
 package Executor;
 
 import Interpreter.Command;
+import Interpreter.Interpreter;
 
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.util.LinkedHashMap;
 
-public class Executor {
+public class Executor { // 执行器，维护基本执行信息，与正在执行的线程
     private static final InputStream consoleIn  = System.in;
     private static final PrintStream consoleOut = System.out;
 
@@ -19,8 +20,8 @@ public class Executor {
         variables.put("PWD", System.getProperty("user.home"));                  // 设置当前路径
         variables.put("UMASK", "022");                                          // 设置当前目录权限
     }
-    public static void Run(Command com) {
-        
-    }
 
+    public static void SetupProcess(Command cmd) {
+        Thread thread = new Thread(cmd, cmd.GetName());
+    }
 }
