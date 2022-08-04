@@ -2,6 +2,8 @@ package Executor;
 
 import Interpreter.Command;
 import Interpreter.Interpreter;
+import Utilities.EType;
+import Utilities.MyException;
 
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -11,7 +13,7 @@ public class Executor { // 执行器，维护基本执行信息，与正在执�
     private static final InputStream consoleIn  = System.in;
     private static final PrintStream consoleOut = System.out;
 
-    public static LinkedHashMap<String, String> variables;
+    private static LinkedHashMap<String, String> variables;
 
     public Executor() {
         variables = new LinkedHashMap<>();
@@ -21,7 +23,19 @@ public class Executor { // 执行器，维护基本执行信息，与正在执�
         variables.put("UMASK", "022");                                          // 设置当前目录权限
     }
 
-    public static void SetupProcess(Command cmd) {
+    public static void SetupProcess(Command cmd) throws MyException {
         Thread thread = new Thread(cmd, cmd.GetName());
+        try {
+            thread.start();
+            thread.join();// 等待该进程结束
+        } catch (Exception e) {
+            throw new MyException(EType.RuntimeError, "Failed to run the process.");
+        }
+    }
+    public static void UpdateVar() {
+        variables.put("PWD", System.getProperty("user.dir"));
+    }
+    public String GetWD() {
+        return variables.get("PWD");
     }
 }

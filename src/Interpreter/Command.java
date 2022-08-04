@@ -1,29 +1,34 @@
 package Interpreter;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
+import Executor.Processor;
+
+import java.io.*;
 import java.util.ArrayList;
 
 public class Command implements Runnable{
     private CmdClass command;
     private String commandName;
     private ArrayList<String> args;
-    private InputStream in;
-    private OutputStream out;
+    private PipedInputStream pipeIn;
+    private PipedOutputStream pipeOut;
+    private static Processor proc;
 
     public Command() {
         command = CmdClass.empty;
         commandName = "";
         args    = new ArrayList<>();
+        proc    = new Processor();
     }
 
     @Override // 复写run
     public void run() { // 调用执行指令的函数，传递in, out
+        InputStream in = null;
+        OutputStream out = System.out; // 重定向out到System.out
+//        out = System.out;
+
         switch (command) {
             case bg:
-                System.out.println("wow\n");
+                proc.Print(in, out);
             case fg:
             case jobs:
             case echo:
@@ -43,6 +48,10 @@ public class Command implements Runnable{
                 break;
             default:
                 break;
+        }
+        try {
+        }catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 

@@ -1,5 +1,6 @@
 package Interpreter;
 
+import Executor.Executor;
 import Utilities.EType;
 import Utilities.MyException;
 
@@ -8,18 +9,19 @@ import java.util.LinkedHashMap;
 // 负责解析输入的语句，包括重定向的功能(<,>,|)
 // 设置命令号，将剩余的元素当作Args传入
 public class Interpreter {
-
+    public static Executor exec;
     public static LinkedHashMap<String, CmdClass> commandMap;
     public Interpreter () {
         commandMap = new LinkedHashMap<String, CmdClass>(){};
         for (CmdClass cc: CmdClass.values()){
             commandMap.put(cc.name(), cc);
         }
+        exec = new Executor(){};
     }
     public static void Prompt() { // 输出提示信息
-
+        System.out.print("\033[38;2;255;155;66m"+"["+exec.GetWD()+"]"+"\033[0m"+"$ ");
     }
-    public Command Read(String s) throws MyException { // 读取并翻译指令
+    public void Read(String s) throws MyException { // 读取并翻译指令
         // 如果是可执行指令，则执行
         // 不然就报错
         String[] elements = s.split("\\s+"); // 根据空格/回车/换行分隔
@@ -37,6 +39,6 @@ public class Interpreter {
                 cmd.InsertArgs(elements[i]);
             }
         }
-        return cmd;
+        Executor.SetupProcess(cmd);
     }
 }

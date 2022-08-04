@@ -14,6 +14,7 @@ public class Main {
 
         while(true) { // 一直循环等待输入
             // Interpreter prompt
+            itpt.Prompt();
             String input = br.readLine(); // 在缓冲区读入一行
             if(!input.equals("")) { // 如果不为空行
                 try {
