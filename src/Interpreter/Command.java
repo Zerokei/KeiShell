@@ -42,6 +42,7 @@ public class Command implements Runnable{
             case environ:
             case unmask:
             case time:
+                proc.Time(out);
             case test:
             case cd:
             case set:
