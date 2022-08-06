@@ -63,4 +63,18 @@ public class Processor { // 执行具体的指令
             System.out.println("[RuntimeError] " + e.getMessage());
         }
     }
+
+    public static void Environ(OutputStream out) {
+        try {
+            BufferedWriter out_writer = new BufferedWriter(new OutputStreamWriter(out));
+            out_writer.write("\033[0;36m Shell:\033[0m " + Executor.GetShell() + '\n');
+            out_writer.write("\033[0;36m Home:\033[0m " + Executor.GetHome() + '\n');
+            out_writer.write("\033[0;36m Present Path:\033[0m " + Executor.GetWD() + '\n');
+            out_writer.write("\033[0;36m UMask:\033[0m " + Executor.GetUMask() + '\n');
+            out_writer.write("\033[0;36m Time:\033[0m " + Executor.GetTime() + '\n');
+            out_writer.flush();
+        } catch (Exception e) {
+            System.out.println(("[RuntimeError] " + e.getMessage()));
+        }
+    }
 }

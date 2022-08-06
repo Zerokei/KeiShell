@@ -42,6 +42,7 @@ public class Command implements Runnable{
             case pwd:
                 proc.Pwd(out); break;
             case environ:
+                proc.Environ(out); break;
             case umask:
                 proc.Umask(out); break;
             case time:

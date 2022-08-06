@@ -21,18 +21,26 @@ public class Executor { // 执行器，维护基本执行信息，与正在执�
 
     public Executor() {
         variables = new LinkedHashMap<>();
-        variables.put("SHELL", System.getProperty("user.dir") + "/KeiShell");   // 设置shell程序位置
+        variables.put("SHELL", System.getProperty("user.dir") + "\\KeiShell");   // 设置shell程序位置
         variables.put("HOME", System.getProperty("user.home"));                 // 设置家目录
         variables.put("PWD", System.getProperty("user.home"));                  // 设置当前路径
         variables.put("UMASK", "022");                                          // 设置当前目录权限
     }
 
-    public static String GetUMask() { // 获取UMask
-        return variables.get("UMASK");
+    public static String GetShell() { // 获取shell地址
+        return variables.get("SHELL");
+    }
+
+    public static String GetHome(){ // 获取home目录
+        return variables.get("HOME");
     }
 
     public static String GetWD() {
         return variables.get("PWD");
+    }
+
+    public static String GetUMask() { // 获取UMask
+        return variables.get("UMASK");
     }
 
     public static String GetTime() { // 获取系统时间
