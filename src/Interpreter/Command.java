@@ -28,7 +28,7 @@ public class Command implements Runnable{
 
         switch (command) {
             case bg:
-                proc.Print(in, out);
+                proc.Print(in, out); break;
             case fg:
             case jobs:
             case echo:
@@ -40,9 +40,10 @@ public class Command implements Runnable{
             case dir:
             case pwd:
             case environ:
-            case unmask:
+            case umask:
+                proc.Umask(out); break;
             case time:
-                proc.Time(out);
+                proc.Time(out); break;
             case test:
             case cd:
             case set:

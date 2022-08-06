@@ -4,10 +4,6 @@ import Interpreter.CmdClass;
 import Interpreter.Command;
 
 import java.io.*;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class Processor { // 执行具体的指令
 
@@ -24,13 +20,19 @@ public class Processor { // 执行具体的指令
             System.out.println("[RuntimeError] " + e.getMessage());
         }
     }
-    public static void Time(OutputStream out) {
+    public static void Time(OutputStream out) { // 响应 time
         try {
-            DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-            Calendar calendar = Calendar.getInstance();
-            Date date = calendar.getTime();
             BufferedWriter out_writer = new BufferedWriter(new OutputStreamWriter(out));
-            out_writer.write(df.format(date)+'\n');
+            out_writer.write(Executor.GetTime() + '\n');
+            out_writer.flush();
+        } catch (Exception e) {
+            System.out.println("[RuntimeError] " + e.getMessage());
+        }
+    }
+    public static void Umask(OutputStream out) { // 响应 umask
+        try {
+            BufferedWriter out_writer = new BufferedWriter(new OutputStreamWriter(out));
+            out_writer.write(Executor.GetUMask() + '\n');
             out_writer.flush();
         } catch (Exception e) {
             System.out.println("[RuntimeError] " + e.getMessage());

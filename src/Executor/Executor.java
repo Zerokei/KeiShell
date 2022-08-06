@@ -7,6 +7,10 @@ import Utilities.MyException;
 
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedHashMap;
 
 public class Executor { // 执行器，维护基本执行信息，与正在执行的线程
@@ -21,6 +25,17 @@ public class Executor { // 执行器，维护基本执行信息，与正在执�
         variables.put("HOME", System.getProperty("user.home"));                 // 设置家目录
         variables.put("PWD", System.getProperty("user.home"));                  // 设置当前路径
         variables.put("UMASK", "022");                                          // 设置当前目录权限
+    }
+
+    public static String GetUMask(){ // 获取UMask
+        return variables.get("UMASK");
+    }
+
+    public static String GetTime() { // 获取系统时间
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss"); // 设置时间格式化字符串
+        Calendar calendar = Calendar.getInstance();
+        Date date = calendar.getTime();
+        return df.format(date);
     }
 
     public static void SetupProcess(Command cmd) throws MyException {
