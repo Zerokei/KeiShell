@@ -14,7 +14,7 @@ public enum CmdClass {
     dir,
     pwd,
     environ,
-    unmask,
+    umask,
     time,
     test,
     cd,

@@ -33,12 +33,14 @@ public class Command implements Runnable{
             case jobs:
             case echo:
             case help:
+                proc.Help(out); break;
             case clr:
             case exit:
             case exec:
             case myshell:
             case dir:
             case pwd:
+                proc.Pwd(out); break;
             case environ:
             case umask:
                 proc.Umask(out); break;

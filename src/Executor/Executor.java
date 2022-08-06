@@ -27,8 +27,12 @@ public class Executor { // 执行器，维护基本执行信息，与正在执�
         variables.put("UMASK", "022");                                          // 设置当前目录权限
     }
 
-    public static String GetUMask(){ // 获取UMask
+    public static String GetUMask() { // 获取UMask
         return variables.get("UMASK");
+    }
+
+    public static String GetWD() {
+        return variables.get("PWD");
     }
 
     public static String GetTime() { // 获取系统时间
@@ -49,8 +53,5 @@ public class Executor { // 执行器，维护基本执行信息，与正在执�
     }
     public static void UpdateVar() {
         variables.put("PWD", System.getProperty("user.dir"));
-    }
-    public String GetWD() {
-        return variables.get("PWD");
     }
 }
