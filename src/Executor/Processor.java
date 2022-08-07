@@ -19,6 +19,7 @@ public class Processor { // 执行具体的指令
             System.out.println("[RuntimeError] " + e.getMessage());
         }
     }
+
     public static void Time(OutputStream out) { // 响应 time
         try {
             BufferedWriter out_writer = new BufferedWriter(new OutputStreamWriter(out));
@@ -74,9 +75,9 @@ public class Processor { // 执行具体的指令
             out_writer.write("\033[0;36m Present Path:\033[0m " + Executor.GetWD() + '\n'); // 输出当前路径
             out_writer.write("\033[0;36m UMask:\033[0m " + Executor.GetUMask() + '\n'); // 输出当前umask
             out_writer.write("\033[0;36m Time:\033[0m " + Executor.GetTime() + '\n'); // 输出当前时间
-            for (Map.Entry<String, String> entry : Executor.variables.entrySet()) {
+            for (Map.Entry<String, String> entry : Executor.variables.entrySet()) { // 输出其他环境变量（通过set设置）
                 if (entry.getKey() == "SHELL" || entry.getKey() == "HOME" || entry.getKey() == "PWD" || entry.getKey() == "UMASK") continue;
-                out_writer.write(entry.getKey() + ": " + entry.getValue() + "\n");
+                out_writer.write(" " + entry.getKey() + ": " + entry.getValue() + "\n");
             }
             out_writer.flush();
         } catch (Exception e) {
