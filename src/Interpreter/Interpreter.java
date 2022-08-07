@@ -7,8 +7,7 @@ import Utilities.MyException;
 
 import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 // 负责解析输入的语句，包括重定向的功能(<,>,|)
 // 设置命令号，将剩余的元素当作Args传入
@@ -60,17 +59,21 @@ public class Interpreter {
     }
     public void GetCommand(String s, Command cmd) throws MyException {
         String[] elements = s.split("\\s+"); // 根据空格/回车/换行分隔
-        for (int i = 0; i < elements.length; ++i) {
+        ArrayList<String> elements_list = new ArrayList<String>(Arrays.asList(elements));
+        if (Objects.equals(elements_list.get(0), "exec")) { // 如果开头是exec，后面直接执行
+            elements_list.remove(0);
+        }
+        for (int i = 0; i < elements_list.size(); ++i) {
             if(i == 0) {
-                if (commandMap.containsKey(elements[0])) {
-                    cmd.SetCommand(commandMap.get(elements[0]));
-                    cmd.SetName(elements[0]);
+                if (commandMap.containsKey(elements_list.get(0))) {
+                    cmd.SetCommand(commandMap.get(elements_list.get(0)));
+                    cmd.SetName(elements_list.get(0));
                 } else {
                     throw new MyException(EType.SyntaxError, "Invalid Command: " + elements[0]);
                 }
             }
             else {
-                cmd.InsertArgs(elements[i]);
+                cmd.InsertArgs(elements_list.get(i));
             }
         }
     }

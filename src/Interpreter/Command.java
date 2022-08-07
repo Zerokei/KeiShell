@@ -63,6 +63,11 @@ public class Command implements Runnable{
                 case bg:
                 case fg:
                 case jobs:
+                case exec:
+                case myshell:
+                case sleep:
+                    proc.Sleep(in);
+                    break;
                 case echo:
                     proc.Echo(in, out);
                     break;
@@ -75,8 +80,6 @@ public class Command implements Runnable{
                 case exit: // 退出
                     proc.Exit();
                     break;
-                case exec:
-                case myshell:
                 case dir:
                     proc.Dir(in, out);
                     break;

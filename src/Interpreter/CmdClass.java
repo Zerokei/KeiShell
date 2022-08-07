@@ -18,5 +18,6 @@ public enum CmdClass {
     time,
     test,
     cd,
-    set
+    set,
+    sleep
 }

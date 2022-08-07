@@ -69,3 +69,7 @@ SYNOPSIS
 <18> more help - file perusal filter for manual
 SYNOPSIS
     more help
+
+<19> sleep - thread sleep for millisecond
+SYNOPSIS
+    sleep [ TIME ]

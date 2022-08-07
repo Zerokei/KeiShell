@@ -201,4 +201,20 @@ public class Processor { // 执行具体的指令
             System.out.println("[RuntimeError] " + e.getMessage());
         }
     }
+
+    public static void Sleep(InputStream in) {
+        try {
+            Scanner scan = new Scanner(in);
+            String timeString = scan.next();
+            int sleepTime = 0;
+            try {
+                sleepTime = Integer.parseInt(timeString);
+            } catch (Exception e) {
+                System.out.println("[SyntaxError] " + "Sleep's time must be integer!");
+            }
+            Thread.sleep(sleepTime);
+        } catch (Exception e) {
+            System.out.println("[RuntimeError] " + e.getMessage());
+        }
+    }
 }
