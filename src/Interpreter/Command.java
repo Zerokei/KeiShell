@@ -31,7 +31,7 @@ public class Command implements Runnable{
         outType = IOType.STD_OUT;
         inputFile   = null;
         outputFile  = null;
-        isBackend   = true;
+        isBackend   = false;
     }
 
     @Override // 复写run
@@ -80,11 +80,13 @@ public class Command implements Runnable{
             switch (command) {
                 case bg:
                 case fg:
-                case jobs:
-                case sleep:
+                case jobs: // 展示线程信息
+                    proc.Jobs(out);
+                    break;
+                case sleep: // 设置睡眠
                     proc.Sleep(in);
                     break;
-                case echo:
+                case echo: // 输出字符串
                     proc.Echo(in, out);
                     break;
                 case help: // 输出帮助手册
@@ -96,7 +98,7 @@ public class Command implements Runnable{
                 case exit: // 退出
                     proc.Exit();
                     break;
-                case dir:
+                case dir: // 显示当前路径下信息
                     proc.Dir(in, out);
                     break;
                 case pwd: // 输出路径
@@ -111,7 +113,7 @@ public class Command implements Runnable{
                 case time: // 显示时间
                     proc.Time(out);
                     break;
-                case test:
+                case test: // 测试某环境变量是否存在
                     proc.Test(in, out);
                     break;
                 case cd: // 进入目录
@@ -130,13 +132,12 @@ public class Command implements Runnable{
         }
     }
 
-    public void SetCommand(CmdClass command) {
+    public void SetCommand(CmdClass command) { // 设置 command
         this.command = command;
     }
-    public void SetName(String name) { this.commandName = name; }
-    public void InsertArgs(String arg) {
+    public void SetName(String name) { this.commandName = name; } // 设置进程名称
+    public void InsertArgs(String arg) { // 插入变量
         this.args.add(arg);
     }
-    public String GetName(){ return this.commandName; }
-    public CmdClass GetCommand() { return this.command; }
+    public String GetName(){ return this.commandName; } // 获取名称
 }

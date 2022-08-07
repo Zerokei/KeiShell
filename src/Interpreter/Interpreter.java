@@ -53,7 +53,7 @@ public class Interpreter {
             for (int i = 0; i < commands.length; ++i) {
                 if (cmd.get(i).isBackend) { // 如果后台运行
                     Thread thread = new Thread(cmd.get(i));
-                    thread.setName("Background Process");
+//                    thread.setName("Background Process");
                     thread.setDaemon(true);
                     thread.start();
                 }
@@ -97,6 +97,7 @@ public class Interpreter {
 
         if (Objects.equals(elements_list.get(elements_list.size() - 1), "&")) {
             cmd.isBackend = true;
+            elements_list.remove(elements_list.size() - 1);
         }
 
 

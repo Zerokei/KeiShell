@@ -191,28 +191,64 @@ public class Processor { // 执行具体的指令
         }
     }
 
-    public static void Echo(InputStream in, OutputStream out) {
+    public static void Echo(InputStream in, OutputStream out) { // 响应 echo
         try {
             Scanner scan = new Scanner(in);
             BufferedWriter out_writer = new BufferedWriter(new OutputStreamWriter(out));
-            out_writer.write(scan.next()+"\n");
+            out_writer.write(scan.next()+"\n"); // 输出相关信息并换行
             out_writer.flush();
         } catch (Exception e) {
             System.out.println("[RuntimeError] " + e.getMessage());
         }
     }
 
-    public static void Sleep(InputStream in) {
+    public static void Sleep(InputStream in) { // 响应 sleep
         try {
             Scanner scan = new Scanner(in);
             String timeString = scan.next();
-            int sleepTime = 0;
+            int sleepTime = 0; // 获取睡眠秒数
             try {
                 sleepTime = Integer.parseInt(timeString);
             } catch (Exception e) {
                 System.out.println("[SyntaxError] " + "Sleep's time must be integer!");
             }
-            Thread.sleep(sleepTime);
+            Thread.sleep(sleepTime); // 线程睡眠
+        } catch (Exception e) {
+            System.out.println("[RuntimeError] " + e.getMessage());
+        }
+    }
+
+//    public static void bg(InputStream in, OutputStream out) {
+//        try {
+//            Scanner scan = new Scanner(in);
+//            String timeString = scan.next();
+//            int sleepTime = 0; // 获取睡眠秒数
+//            try {
+//                sleepTime = Integer.parseInt(timeString);
+//            } catch (Exception e) {
+//                System.out.println("[SyntaxError] " + "Thread id must be integer!");
+//            }
+//        } catch (Exception e) {
+//            System.out.println("[RuntimeError] " + e.getMessage());
+//        }
+//    }
+
+    public static void Jobs(OutputStream out){ // 响应 jobs
+        try {
+            ThreadGroup currentGroup = Thread.currentThread().getThreadGroup();
+            int noThreads = currentGroup.activeCount();
+            Thread[] lstThreads = new Thread[noThreads];
+            currentGroup.enumerate(lstThreads); // 获取所有线程信息
+            BufferedWriter out_writer = new BufferedWriter(new OutputStreamWriter(out));
+            out_writer.write("There are " + noThreads + " threads\n");
+            for (int i = 0; i < noThreads; i++) {
+                out_writer.write("\033[0;36mThread ID:\033[0m " + i); // 输出ID
+                if (lstThreads[i].isDaemon()) // 输出前台/后台运行
+                    out_writer.write(" \033[0;36mState:\033[0m running in the backend  ");
+                else out_writer.write(" \033[0;36mState:\033[0m running in the frontend ");
+                out_writer.write("\033[0;36mName:\033[0m " + lstThreads[i].getName() + "\n"); // 输出名字
+            }
+            out_writer.flush();
         } catch (Exception e) {
             System.out.println("[RuntimeError] " + e.getMessage());
         }
