@@ -1,30 +1,61 @@
 package Interpreter;
 
+import Executor.IOType;
 import Executor.Processor;
 
 import java.io.*;
 import java.util.ArrayList;
 
+import static Executor.Processor.Exit;
+
 public class Command implements Runnable{
     private CmdClass command;
     private String commandName;
     private ArrayList<String> args;
-    private PipedInputStream pipeIn;
-    private PipedOutputStream pipeOut;
-    private static Processor proc;
+    public PipedInputStream pipeIn;
+    public PipedOutputStream pipeOut;
+    public IOType inType;
+    public IOType outType;
+    private static Processor proc = new Processor();
 
     public Command() {
         command = CmdClass.empty;
         commandName = "";
         args    = new ArrayList<>();
-        proc    = new Processor();
+        pipeIn  = new PipedInputStream();
+        pipeOut = new PipedOutputStream();
+        inType  = IOType.STD_IN;
+        outType = IOType.STD_OUT;
     }
 
     @Override // 复写run
     public void run() { // 调用执行指令的函数，传递in, out
         InputStream in = null;
-        OutputStream out = System.out; // 重定向out到System.out
-//        out = System.out;
+        OutputStream out = null;
+        switch (outType) {
+            case STD_OUT: // 标准输出
+                out = System.out; // 重定向out到System.out，即屏幕输出
+                break;
+            case PIPE_OUT: // 管道输出
+                out = pipeOut; // 输出到管道
+                break;
+        }
+        switch (inType) {
+            case STD_IN: // 标准输入
+                StringBuilder input = new StringBuilder();
+                for (String s : args) {
+                    input.append(s).append(" ");
+                }
+                try {
+                    in = new ByteArrayInputStream(input.toString().getBytes("UTF-8"));
+                } catch (Exception e) {
+                    System.out.println("[RuntimeError in read args]: " + e.getMessage());
+                }
+                break;
+            case PIPE_IN: // 管道读入
+                in = pipeIn; // 从管道中读入 (因为不涉及参数之类，所以不再从 args 中读入)
+                break;
+        }
 
         switch (command) {
             case bg:
@@ -32,25 +63,29 @@ public class Command implements Runnable{
             case fg:
             case jobs:
             case echo:
-            case help:
+                proc.Echo(in, out); break;
+            case help: // 输出帮助手册
                 proc.Help(out); break;
-            case clr:
-            case exit:
+            case clr: // 清屏
+                proc.Clear(); break;
+            case exit: // 退出
+                proc.Exit(); break;
             case exec:
             case myshell:
             case dir:
-            case pwd:
+            case pwd: // 输出路径
                 proc.Pwd(out); break;
-            case environ:
+            case environ: // 输出环境信息
                 proc.Environ(out); break;
-            case umask:
+            case umask: // 显示umask
                 proc.Umask(out); break;
-            case time:
+            case time: // 显示时间
                 proc.Time(out); break;
             case test:
-            case cd:
-            case set:
-                break;
+            case cd: // 进入目录
+                proc.CD(in); break;
+            case set: // 设置变量
+                proc.Set(in); break;
             default:
                 break;
         }

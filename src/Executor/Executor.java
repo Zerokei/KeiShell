@@ -17,7 +17,7 @@ public class Executor { // 执行器，维护基本执行信息，与正在执�
     private static final InputStream consoleIn  = System.in;
     private static final PrintStream consoleOut = System.out;
 
-    private static LinkedHashMap<String, String> variables;
+    public static LinkedHashMap<String, String> variables;
 
     public Executor() {
         variables = new LinkedHashMap<>();
@@ -41,6 +41,10 @@ public class Executor { // 执行器，维护基本执行信息，与正在执�
 
     public static String GetUMask() { // 获取UMask
         return variables.get("UMASK");
+    }
+
+    public static void SetVariable(String var, String val) {
+        variables.put(var, val);
     }
 
     public static String GetTime() { // 获取系统时间

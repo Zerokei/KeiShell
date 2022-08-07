@@ -62,9 +62,9 @@ SYNOPSIS
 SYNOPSIS
     help
 
-<17> clear - clear the terminal screen
+<17> clr - clear the terminal screen
 SYNOPSIS
-    clear
+    clr
 
 <18> more help - file perusal filter for manual
 SYNOPSIS
