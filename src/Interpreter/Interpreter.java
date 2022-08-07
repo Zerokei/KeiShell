@@ -5,8 +5,10 @@ import Executor.IOType;
 import Utilities.EType;
 import Utilities.MyException;
 
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.*;
 
 // 负责解析输入的语句，包括重定向的功能(<,>,|)
@@ -30,6 +32,7 @@ public class Interpreter {
         String[] commands = s.split("\\|");
         ArrayList<Command> cmd = new ArrayList<Command>();
         try {
+
             for (int i = 0; i < commands.length; ++i) {
                 cmd.add(new Command());
                 GetCommand(commands[i].trim(), cmd.get(i));
@@ -57,9 +60,30 @@ public class Interpreter {
         }
 
     }
+    public void ProcessFile(InputStream in) {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+        String cmdline = null;
+        try {
+            while ((cmdline = reader.readLine()) != null) {
+                Read(cmdline);
+            }
+        } catch (Exception e) {
+            System.out.println("[RuntimeError]: " + e.getMessage());
+        }
+    }
     public void GetCommand(String s, Command cmd) throws MyException {
         String[] elements = s.split("\\s+"); // 根据空格/回车/换行分隔
         ArrayList<String> elements_list = new ArrayList<String>(Arrays.asList(elements));
+
+        if (Objects.equals(elements[0], "myshell")){ // 如果开头是myshell，读入文件一次执行
+            try {
+                InputStream in = new FileInputStream(elements[1]); // 文件输入流
+                ProcessFile(in);
+            } catch (Exception e){
+                System.out.println("[RuntimeError]: " + "No such file to read!");
+            }
+        }
+
         if (Objects.equals(elements_list.get(0), "exec")) { // 如果开头是exec，后面直接执行
             elements_list.remove(0);
         }

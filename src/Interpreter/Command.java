@@ -76,8 +76,8 @@ public class Command implements Runnable{
                 case bg:
                 case fg:
                 case jobs:
-                case exec:
                 case myshell:
+                    break;
                 case sleep:
                     proc.Sleep(in);
                     break;
