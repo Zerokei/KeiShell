@@ -85,6 +85,23 @@ public class Processor { // 执行具体的指令
         }
     }
 
+    public static void Test(InputStream in, OutputStream out) {
+        try {
+            BufferedWriter out_writer = new BufferedWriter(new OutputStreamWriter(out));
+            Scanner scan = new Scanner(in);
+            String key = scan.next();
+            String value = Executor.variables.get(key);
+            if (value == null) {
+                out_writer.write("The key <\033[0;36m" + key + "\033[0m> is not been set.\n");
+            } else {
+                out_writer.write("The value of the key <\033[0;36m" + key + "\033[0m> is " + value + "\n");
+            }
+            out_writer.flush();
+        } catch (Exception e) {
+            System.out.println("[RuntimeError] " + e.getMessage());
+        }
+    }
+
     public static void Clear() { // 响应 clr
         try {
             System.out.println("\033[H\033[2J"); // 清屏

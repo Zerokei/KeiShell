@@ -82,6 +82,7 @@ public class Command implements Runnable{
             case time: // 显示时间
                 proc.Time(out); break;
             case test:
+                proc.Test(in, out); break;
             case cd: // 进入目录
                 proc.CD(in); break;
             case set: // 设置变量
