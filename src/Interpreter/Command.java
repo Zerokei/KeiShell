@@ -7,7 +7,6 @@ import Utilities.MyException;
 import java.io.*;
 import java.util.ArrayList;
 
-import static Executor.Processor.Exit;
 
 public class Command implements Runnable{
     private CmdClass command;
@@ -17,6 +16,8 @@ public class Command implements Runnable{
     public PipedOutputStream pipeOut;
     public IOType inType;
     public IOType outType;
+    public String inputFile;
+    public String outputFile;
     private static Processor proc = new Processor();
 
     public Command() {
@@ -40,6 +41,12 @@ public class Command implements Runnable{
             case PIPE_OUT: // 管道输出
                 out = pipeOut; // 输出到管道
                 break;
+            case FILE_OUT: // 输出到指定文件
+                try {
+                    out = new FileOutputStream(outputFile);
+                } catch (Exception e) {
+                    System.out.println("[RuntimeError]");
+                }
         }
         switch (inType) {
             case STD_IN: // 标准输入
@@ -56,6 +63,12 @@ public class Command implements Runnable{
             case PIPE_IN: // 管道读入
                 in = pipeIn; // 从管道中读入 (因为不涉及参数之类，所以不再从 args 中读入)
                 break;
+            case FILE_IN:
+                try {
+                    in = new FileInputStream(inputFile);
+                } catch (Exception e) {
+                    System.out.println("[RuntimeError]: " + "No such file to read!");
+                }
         }
 
         try {

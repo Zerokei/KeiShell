@@ -34,14 +34,14 @@ public class Interpreter {
                 cmd.add(new Command());
                 GetCommand(commands[i].trim(), cmd.get(i));
                 if (i == 0) {
-                    cmd.get(i).inType = IOType.STD_IN;
+//                    cmd.get(i).inType = IOType.STD_IN;
                 }
                 else {
                     cmd.get(i).inType = IOType.PIPE_IN;
                     cmd.get(i).pipeIn.connect(cmd.get(i - 1).pipeOut);
                 }
                 if (i == commands.length - 1) {
-                    cmd.get(i).outType = IOType.STD_OUT;
+//                    cmd.get(i).outType = IOType.STD_OUT;
                 } else {
                     cmd.get(i).outType = IOType.PIPE_OUT;
                 }
@@ -63,7 +63,32 @@ public class Interpreter {
         if (Objects.equals(elements_list.get(0), "exec")) { // 如果开头是exec，后面直接执行
             elements_list.remove(0);
         }
-        for (int i = 0; i < elements_list.size(); ++i) {
+
+
+        // 处理重定向输入
+        int inputPosition = elements_list.indexOf("<");
+        if (inputPosition == 1) { // file < command
+            cmd.inType = IOType.FILE_IN;
+            cmd.inputFile = elements_list.get(0);
+            elements_list.remove(0); // 删除文件名
+            elements_list.remove(0); // 删除 <
+        } else {
+            cmd.inType = IOType.STD_IN;
+        }
+
+        // 处理重定向输出
+        int outputPosition = elements_list.indexOf(">");
+        if (outputPosition != -1 && outputPosition == elements_list.size() - 2) { // command > file
+            cmd.outType = IOType.FILE_OUT;
+            cmd.outputFile = elements_list.get(elements_list.size() - 1);
+            elements_list.remove(elements_list.size() - 1); // 删除文件名
+            elements_list.remove(elements_list.size() - 1); // 删除 >
+        } else {
+            cmd.outType = IOType.STD_OUT;
+        }
+
+        // 处理指令
+        for (int i = 0; i < elements_list.size(); ++i) { // 遍历数组元素
             if(i == 0) {
                 if (commandMap.containsKey(elements_list.get(0))) {
                     cmd.SetCommand(commandMap.get(elements_list.get(0)));

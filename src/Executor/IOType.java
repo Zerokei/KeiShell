@@ -4,5 +4,7 @@ public enum IOType {
     PIPE_IN,
     PIPE_OUT,
     STD_IN,
-    STD_OUT
+    STD_OUT,
+    FILE_IN,
+    FILE_OUT
 }
