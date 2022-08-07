@@ -43,6 +43,7 @@ public class Executor { // 执行器，维护基本执行信息，与正在执�
         return variables.get("UMASK");
     }
 
+    public static void SetPath(String val) { variables.put("PWD", val); }
     public static void SetVariable(String var, String val) {
         variables.put(var, val);
     }

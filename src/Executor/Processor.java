@@ -2,9 +2,12 @@ package Executor;
 
 import Interpreter.CmdClass;
 import Interpreter.Command;
+import Utilities.EType;
+import Utilities.MyException;
 
 import java.io.*;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Processor { // 执行具体的指令
@@ -110,7 +113,62 @@ public class Processor { // 执行具体的指令
         }
     }
 
-    public static void CD(InputStream in) {
+    public static void Dir(InputStream in, OutputStream out) { // 响应 dir
+        try {
+            Scanner scan = new Scanner(in);
+            BufferedWriter out_writer = new BufferedWriter(new OutputStreamWriter(out));
+            if (scan.hasNext()) { // 指定扫描某路径
+
+            } else {
+                File dir = new File(Executor.GetWD());
+                String[] children = dir.list();
+                for(int i = 0; i < children.length; ++i) {
+                    out_writer.write(children[i]);
+                    if (i == children.length - 1) {
+                        out_writer.write("\n");
+                    } else {
+                        out_writer.write(" ");
+                    }
+                }
+            }
+            out_writer.flush();
+        } catch (Exception e) {
+            System.out.println("[RuntimeError] " + e.getMessage());
+        }
+    }
+
+    public static void CD(InputStream in) throws MyException { // 响应 cd
+        try {
+            Scanner scan = new Scanner(in);
+            if (!scan.hasNext()) {
+                throw new MyException(EType.RuntimeError, "Missing parameters\n"); // 缺少参数
+            }
+            String input = scan.next(); // 获取 input
+            if (Objects.equals(input, "..")){
+                File dir = new File(Executor.GetWD());
+                String target = dir.getParent(); // 获取上一级目录
+                if (target != null) { // 如果非空，即存在上一级目录
+                    Executor.SetPath(target); // 设置工作路径
+                } else {
+                    throw new MyException(EType.RuntimeError, "Cannot go to the previous level of the directory\n");
+                }
+            } else {
+                String target = Executor.GetWD() + "\\" + input; // 切换目录
+                System.out.println(target + "\n");
+                File dir = new File(target);
+                if (!dir.exists()) {
+                    throw new MyException(EType.RuntimeError, "The directory is not exists\n");
+                } else if (!dir.isDirectory()){ // 当前路径不是文件夹
+                    throw new MyException(EType.RuntimeError, "It is not a directory!\n");
+                } else { // 正常，设置路径
+                    Executor.SetPath(target);
+                }
+            }
+        } catch (MyException e) {
+            throw e;
+        } catch (Exception e) {
+            System.out.println("[RuntimeError] " + e.getMessage());
+        }
     }
 
     public static void Exit() { // 响应 exit
@@ -122,12 +180,12 @@ public class Processor { // 执行具体的指令
         }
     }
 
-    public static void Set(InputStream in) {
+    public static void Set(InputStream in) { // 设置环境变量
         try {
             Scanner scan = new Scanner(in);
-            String a = scan.next();
-            String b = scan.next();
-            Executor.SetVariable(a, b);
+            String key = scan.next(); // 获取 key
+            String value = scan.next(); // 获取 value
+            Executor.SetVariable(key, value);
         } catch (Exception e) {
             System.out.println("[RuntimeError] " + e.getMessage());
         }

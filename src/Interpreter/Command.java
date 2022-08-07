@@ -2,6 +2,7 @@ package Interpreter;
 
 import Executor.IOType;
 import Executor.Processor;
+import Utilities.MyException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -57,41 +58,55 @@ public class Command implements Runnable{
                 break;
         }
 
-        switch (command) {
-            case bg:
-                proc.Print(in, out); break;
-            case fg:
-            case jobs:
-            case echo:
-                proc.Echo(in, out); break;
-            case help: // 输出帮助手册
-                proc.Help(out); break;
-            case clr: // 清屏
-                proc.Clear(); break;
-            case exit: // 退出
-                proc.Exit(); break;
-            case exec:
-            case myshell:
-            case dir:
-            case pwd: // 输出路径
-                proc.Pwd(out); break;
-            case environ: // 输出环境信息
-                proc.Environ(out); break;
-            case umask: // 显示umask
-                proc.Umask(out); break;
-            case time: // 显示时间
-                proc.Time(out); break;
-            case test:
-                proc.Test(in, out); break;
-            case cd: // 进入目录
-                proc.CD(in); break;
-            case set: // 设置变量
-                proc.Set(in); break;
-            default:
-                break;
-        }
         try {
-        }catch (Exception e){
+            switch (command) {
+                case bg:
+                case fg:
+                case jobs:
+                case echo:
+                    proc.Echo(in, out);
+                    break;
+                case help: // 输出帮助手册
+                    proc.Help(out);
+                    break;
+                case clr: // 清屏
+                    proc.Clear();
+                    break;
+                case exit: // 退出
+                    proc.Exit();
+                    break;
+                case exec:
+                case myshell:
+                case dir:
+                    proc.Dir(in, out);
+                    break;
+                case pwd: // 输出路径
+                    proc.Pwd(out);
+                    break;
+                case environ: // 输出环境信息
+                    proc.Environ(out);
+                    break;
+                case umask: // 显示umask
+                    proc.Umask(out);
+                    break;
+                case time: // 显示时间
+                    proc.Time(out);
+                    break;
+                case test:
+                    proc.Test(in, out);
+                    break;
+                case cd: // 进入目录
+                    proc.CD(in);
+                    break;
+                case set: // 设置变量
+                    proc.Set(in);
+                    break;
+                default:
+                    break;
+            }
+        } catch (MyException e) {
+            System.out.println(e.GetMsg());
+        } catch (Exception e){
             System.out.println(e.getMessage());
         }
     }
