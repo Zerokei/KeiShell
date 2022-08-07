@@ -18,6 +18,7 @@ public class Command implements Runnable{
     public IOType outType;
     public String inputFile;
     public String outputFile;
+    public Boolean isBackend;
     private static Processor proc = new Processor();
 
     public Command() {
@@ -28,10 +29,14 @@ public class Command implements Runnable{
         pipeOut = new PipedOutputStream();
         inType  = IOType.STD_IN;
         outType = IOType.STD_OUT;
+        inputFile   = null;
+        outputFile  = null;
+        isBackend   = true;
     }
 
     @Override // 复写run
     public void run() { // 调用执行指令的函数，传递in, out
+
         InputStream in = null;
         OutputStream out = null;
         switch (outType) {
@@ -76,8 +81,6 @@ public class Command implements Runnable{
                 case bg:
                 case fg:
                 case jobs:
-                case myshell:
-                    break;
                 case sleep:
                     proc.Sleep(in);
                     break;

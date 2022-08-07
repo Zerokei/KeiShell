@@ -51,14 +51,21 @@ public class Interpreter {
             }
             // 先设置好所有管道，再执行
             for (int i = 0; i < commands.length; ++i) {
-                Executor.SetupProcess(cmd.get(i));
+                if (cmd.get(i).isBackend) { // 如果后台运行
+                    Thread thread = new Thread(cmd.get(i));
+                    thread.setName("Background Process");
+                    thread.setDaemon(true);
+                    thread.start();
+                }
+                else { // 前台运行
+                    Executor.SetupProcess(cmd.get(i));
+                }
             }
         } catch (MyException e) {
             throw e;
         } catch (Exception e) {
             System.out.println("[SyntaxError]: " + e.getMessage());
         }
-
     }
     public void ProcessFile(InputStream in) {
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
@@ -86,6 +93,10 @@ public class Interpreter {
 
         if (Objects.equals(elements_list.get(0), "exec")) { // 如果开头是exec，后面直接执行
             elements_list.remove(0);
+        }
+
+        if (Objects.equals(elements_list.get(elements_list.size() - 1), "&")) {
+            cmd.isBackend = true;
         }
 
 
