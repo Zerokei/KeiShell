@@ -18,58 +18,46 @@ SYNOPSIS
 SYNOPSIS
     cd [ DIR ]
 
-<6> bg - run jobs in the background
+<6> pwd - print name of current/working directory
 SYNOPSIS
-    bg [ JOB_ID ]
+  6  pwd [ DIR ]
 
-<7> fg - run jobs in the foreground
-SYNOPSIS
-    fg [ JOB_ID ]
-
-<8> pwd - print name of current/working directory
-SYNOPSIS
-    pwd [ DIR ]
-
-<9> test - test whether an variable has been set
+<7> test - test whether an variable has been set
 SYNOPSIS
     test [ VAR ]
 
-<10> set - set parameters
+<8> set - set parameters
 SYNOPSIS
     set [ VAR ] [ VAL ]
 
-<11> time - display the current time
+<9> time - display the current time
 SYNOPSIS
     time
 
-<12> jobs - display status of jobs in the current session
+<10> jobs - display status of jobs in the current session
 SYNOPSIS
     jobs
 
-<13> umask - display the current mask in octal notation
+<11> umask - display the current mask in octal notation
 SYNOPSIS
     umask
 
-<14> environ - user environment
+<12> environ - user environment
 SYNOPSIS
     environ
 
-<15> exit - exit shell
+<13> exit - exit shell
 SYNOPSIS
     exit
 
-<16> help - get the manual
+<14> help - get the manual
 SYNOPSIS
     help
 
-<17> clr - clear the terminal screen
+<15> clr - clear the terminal screen
 SYNOPSIS
     clr
 
-<18> more help - file perusal filter for manual
-SYNOPSIS
-    more help
-
-<19> sleep - thread sleep for millisecond
+<16> sleep - thread sleep for millisecond
 SYNOPSIS
     sleep [ TIME ]

@@ -123,6 +123,14 @@ public class Interpreter {
             cmd.outType = IOType.STD_OUT;
         }
 
+        outputPosition = elements_list.indexOf(">>");
+        if (outputPosition != -1 && outputPosition == elements_list.size() - 2) { // command >> file
+            cmd.outType = IOType.FILE_APPEND_OUT;
+            cmd.outputFile = elements_list.get(elements_list.size() - 1);
+            elements_list.remove(elements_list.size() - 1); // 删除文件名
+            elements_list.remove(elements_list.size() - 1); // 删除 >>
+        }
+
         // 处理指令
         for (int i = 0; i < elements_list.size(); ++i) { // 遍历数组元素
             if(i == 0) {

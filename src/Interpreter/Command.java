@@ -52,6 +52,12 @@ public class Command implements Runnable{
                 } catch (Exception e) {
                     System.out.println("[RuntimeError]");
                 }
+            case FILE_APPEND_OUT: // 输出到指定文件
+                try {
+                    out = new FileOutputStream(outputFile, true);
+                } catch (Exception e) {
+                    System.out.println("[RuntimeError]");
+                }
         }
         switch (inType) {
             case STD_IN: // 标准输入

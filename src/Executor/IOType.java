@@ -6,5 +6,6 @@ public enum IOType {
     STD_IN,
     STD_OUT,
     FILE_IN,
-    FILE_OUT
+    FILE_OUT,
+    FILE_APPEND_OUT
 }
