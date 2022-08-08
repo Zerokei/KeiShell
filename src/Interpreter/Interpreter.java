@@ -16,9 +16,9 @@ import java.util.*;
 public class Interpreter {
     public static Executor exec;
     public static LinkedHashMap<String, CmdClass> commandMap;
-    public Interpreter () {
+    public Interpreter () { // 解释器初始化
         commandMap = new LinkedHashMap<String, CmdClass>(){};
-        for (CmdClass cc: CmdClass.values()){
+        for (CmdClass cc: CmdClass.values()){ // 初始化指令映射表
             commandMap.put(cc.name(), cc);
         }
         exec = new Executor(){};
@@ -29,23 +29,21 @@ public class Interpreter {
     public void Read(String s) throws MyException { // 读取并翻译指令
         // 如果是可执行指令，则执行
         // 不然就报错
-        String[] commands = s.split("\\|");
+        String[] commands = s.split("\\|"); // 根据管道切割指令
         ArrayList<Command> cmd = new ArrayList<Command>();
         try {
 
-            for (int i = 0; i < commands.length; ++i) {
+            for (int i = 0; i < commands.length; ++i) { // 逐个执行指令
                 cmd.add(new Command());
                 GetCommand(commands[i].trim(), cmd.get(i));
                 if (i == 0) {
-//                    cmd.get(i).inType = IOType.STD_IN;
                 }
-                else {
+                else { // 如果不是第一条指令，接受前面指令的输出作为输入
                     cmd.get(i).inType = IOType.PIPE_IN;
                     cmd.get(i).pipeIn.connect(cmd.get(i - 1).pipeOut);
                 }
                 if (i == commands.length - 1) {
-//                    cmd.get(i).outType = IOType.STD_OUT;
-                } else {
+                } else { // 如果不是最后一条指令，将自身的输出作为后面指令的输入
                     cmd.get(i).outType = IOType.PIPE_OUT;
                 }
             }
@@ -53,7 +51,6 @@ public class Interpreter {
             for (int i = 0; i < commands.length; ++i) {
                 if (cmd.get(i).isBackend) { // 如果后台运行
                     Thread thread = new Thread(cmd.get(i));
-//                    thread.setName("Background Process");
                     thread.setDaemon(true);
                     thread.start();
                 }
@@ -61,7 +58,7 @@ public class Interpreter {
                     Executor.SetupProcess(cmd.get(i));
                 }
             }
-        } catch (MyException e) {
+        } catch (MyException e) { // 抛出异常
             throw e;
         } catch (Exception e) {
             System.out.println("[SyntaxError]: " + e.getMessage());
@@ -71,8 +68,7 @@ public class Interpreter {
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         String cmdline = null;
         try {
-            while ((cmdline = reader.readLine()) != null) {
-                System.out.println(cmdline + "\n");
+            while ((cmdline = reader.readLine()) != null) { // 逐行读入
                 Read(cmdline);
             }
         } catch (Exception e) {
@@ -88,7 +84,7 @@ public class Interpreter {
             elements_list.remove(0);
         }
 
-        if (Objects.equals(elements_list.get(elements_list.size() - 1), "&")) {
+        if (Objects.equals(elements_list.get(elements_list.size() - 1), "&")) { // 后台运行
             cmd.isBackend = true;
             elements_list.remove(elements_list.size() - 1);
         }
@@ -101,8 +97,6 @@ public class Interpreter {
             cmd.inputFile = elements_list.get(0);
             elements_list.remove(0); // 删除文件名
             elements_list.remove(0); // 删除 <
-        } else {
-            cmd.inType = IOType.STD_IN;
         }
 
         // 处理重定向输出
@@ -112,8 +106,6 @@ public class Interpreter {
             cmd.outputFile = elements_list.get(elements_list.size() - 1);
             elements_list.remove(elements_list.size() - 1); // 删除文件名
             elements_list.remove(elements_list.size() - 1); // 删除 >
-        } else {
-            cmd.outType = IOType.STD_OUT;
         }
 
         outputPosition = elements_list.indexOf(">>");
@@ -126,7 +118,7 @@ public class Interpreter {
 
         // 处理指令
         for (int i = 0; i < elements_list.size(); ++i) { // 遍历数组元素
-            if(i == 0) {
+            if(i == 0) { // 第一个为指令
                 if (commandMap.containsKey(elements_list.get(0))) {
                     cmd.SetCommand(commandMap.get(elements_list.get(0)));
                     cmd.SetName(elements_list.get(0));
@@ -134,7 +126,7 @@ public class Interpreter {
                     throw new MyException(EType.SyntaxError, "Invalid Command: " + elements[0]);
                 }
             }
-            else {
+            else { // 读入参数
                 cmd.InsertArgs(elements_list.get(i));
             }
         }

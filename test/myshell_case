@@ -1,4 +1,11 @@
-echo wow
+echo the_time:
 time
+echo you_are_in:
+pwd
+echo print_first_folder
 dir | echo
+echo clear_after_2_seconds
+sleep 2000
+clr
+echo exit...
 exit

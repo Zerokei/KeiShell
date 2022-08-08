@@ -12,21 +12,11 @@ import java.util.Scanner;
 
 public class Processor { // 执行具体的指令
 
-    public static void Print(InputStream in, OutputStream out) {
-        try {
-            BufferedWriter out_writer = new BufferedWriter(new OutputStreamWriter(out));
-            String wow = "wow";
-            out_writer.write(wow);
-            out_writer.flush();
-        } catch (Exception e) {
-            System.out.println("[RuntimeError] " + e.getMessage());
-        }
-    }
 
     public static void Time(OutputStream out) { // 响应 time
         try {
             BufferedWriter out_writer = new BufferedWriter(new OutputStreamWriter(out));
-            out_writer.write(Executor.GetTime() + '\n');
+            out_writer.write(Executor.GetTime() + '\n'); // 获取系统时间
             out_writer.flush();
         } catch (Exception e) {
             System.out.println("[RuntimeError] " + e.getMessage());
@@ -36,7 +26,7 @@ public class Processor { // 执行具体的指令
     public static void Umask(OutputStream out) { // 响应 umask
         try {
             BufferedWriter out_writer = new BufferedWriter(new OutputStreamWriter(out));
-            out_writer.write(Executor.GetUMask() + '\n');
+            out_writer.write(Executor.GetUMask() + '\n'); // 获取umask
             out_writer.flush();
         } catch (Exception e) {
             System.out.println("[RuntimeError] " + e.getMessage());
@@ -46,7 +36,7 @@ public class Processor { // 执行具体的指令
     public static void Pwd(OutputStream out) { // 响应 pwd
         try {
             BufferedWriter out_writer = new BufferedWriter(new OutputStreamWriter(out));
-            out_writer.write(Executor.GetWD() + '\n');
+            out_writer.write(Executor.GetWD() + '\n'); // 获取当前路径
             out_writer.flush();
         } catch (Exception e) {
             System.out.println("[RuntimeError] " + e.getMessage());
@@ -60,7 +50,7 @@ public class Processor { // 执行具体的指令
             FileReader fr = new FileReader(file);
             BufferedReader br = new BufferedReader(fr);
             String line;
-            BufferedWriter out_writer = new BufferedWriter(new OutputStreamWriter(out));
+            BufferedWriter out_writer = new BufferedWriter(new OutputStreamWriter(out)); // 将 manual 内容输出到输出流
             while((line = br.readLine()) != null) { // 逐行读入
                 out_writer.write(line + '\n');
             }
@@ -88,15 +78,15 @@ public class Processor { // 执行具体的指令
         }
     }
 
-    public static void Test(InputStream in, OutputStream out) {
+    public static void Test(InputStream in, OutputStream out) { // 响应 test
         try {
             BufferedWriter out_writer = new BufferedWriter(new OutputStreamWriter(out));
             Scanner scan = new Scanner(in);
             String key = scan.next();
             String value = Executor.variables.get(key);
-            if (value == null) {
+            if (value == null) { // 如果不存在该环境变量，则输出提示信息
                 out_writer.write("The key <\033[0;36m" + key + "\033[0m> is not been set.\n");
-            } else {
+            } else { // 如果存在该环境变量，输出变量值
                 out_writer.write("The value of the key <\033[0;36m" + key + "\033[0m> is " + value + "\n");
             }
             out_writer.flush();
@@ -120,14 +110,14 @@ public class Processor { // 执行具体的指令
             if (scan.hasNext()) { // 指定扫描某路径
 
             } else {
-                File dir = new File(Executor.GetWD());
-                String[] children = dir.list();
+                File dir = new File(Executor.GetWD()); // 获取当前路径
+                String[] children = dir.list(); // 获取当前路径下文件的 list
                 for(int i = 0; i < children.length; ++i) {
                     out_writer.write(children[i]);
-                    if (i == children.length - 1) {
+                    if (i == children.length - 1) { // 在最后一个文件后加入换行
                         out_writer.write("\n");
                     } else {
-                        out_writer.write(" ");
+                        out_writer.write(" "); // 使用空格隔开
                     }
                 }
             }
@@ -218,20 +208,6 @@ public class Processor { // 执行具体的指令
         }
     }
 
-//    public static void bg(InputStream in, OutputStream out) {
-//        try {
-//            Scanner scan = new Scanner(in);
-//            String timeString = scan.next();
-//            int sleepTime = 0; // 获取睡眠秒数
-//            try {
-//                sleepTime = Integer.parseInt(timeString);
-//            } catch (Exception e) {
-//                System.out.println("[SyntaxError] " + "Thread id must be integer!");
-//            }
-//        } catch (Exception e) {
-//            System.out.println("[RuntimeError] " + e.getMessage());
-//        }
-//    }
 
     public static void Jobs(OutputStream out){ // 响应 jobs
         try {

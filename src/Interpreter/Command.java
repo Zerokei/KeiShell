@@ -9,26 +9,26 @@ import java.util.ArrayList;
 
 
 public class Command implements Runnable{
-    private CmdClass command;
-    private String commandName;
-    private ArrayList<String> args;
-    public PipedInputStream pipeIn;
-    public PipedOutputStream pipeOut;
-    public IOType inType;
-    public IOType outType;
-    public String inputFile;
-    public String outputFile;
-    public Boolean isBackend;
+    private CmdClass command; // 命令类
+    private String commandName; // 命令名称
+    private ArrayList<String> args; // 参数表
+    public PipedInputStream pipeIn; // 管道输入
+    public PipedOutputStream pipeOut; // 管道输出
+    public IOType inType; // 输入格式
+    public IOType outType; // 输出格式
+    public String inputFile; // 输入文件名称（如果从文件读入的话）
+    public String outputFile;// 输出文件名称（如果从文件输出的话）
+    public Boolean isBackend; // 是否后台运行
     private static Processor proc = new Processor();
 
-    public Command() {
+    public Command() { // command初始化
         command = CmdClass.empty;
         commandName = "";
         args    = new ArrayList<>();
         pipeIn  = new PipedInputStream();
-        pipeOut = new PipedOutputStream();
-        inType  = IOType.STD_IN;
-        outType = IOType.STD_OUT;
+        pipeOut = new PipedOutputStream(); // 新建对象
+        inType  = IOType.STD_IN; // 默认为STD_IN
+        outType = IOType.STD_OUT; // 默认为STD_OUT
         inputFile   = null;
         outputFile  = null;
         isBackend   = false;
@@ -65,7 +65,7 @@ public class Command implements Runnable{
             case STD_IN: // 标准输入
                 StringBuilder input = new StringBuilder();
                 for (String s : args) {
-                    input.append(s).append(" ");
+                    input.append(s).append(" "); // 将参数逐个塞入输入流
                 }
                 try {
                     in = new ByteArrayInputStream(input.toString().getBytes("UTF-8"));
@@ -140,10 +140,10 @@ public class Command implements Runnable{
 
     public void SetCommand(CmdClass command) { // 设置 command
         this.command = command;
-    }
+    } // 设置命令类
     public void SetName(String name) { this.commandName = name; } // 设置进程名称
     public void InsertArgs(String arg) { // 插入变量
         this.args.add(arg);
-    }
+    } // 插入参数
     public String GetName(){ return this.commandName; } // 获取名称
 }
