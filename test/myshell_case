@@ -1,4 +1,4 @@
 echo wow
 time
-sleep 100
 dir | echo
+exit

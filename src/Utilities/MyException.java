@@ -11,5 +11,5 @@ public class MyException extends java.lang.Exception { // 异常信息
 
     public String GetMsg() {
         return "[" + type.name() + ']' + msg;
-    }
+    } // 获取异常信息
 }

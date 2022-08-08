@@ -1,6 +1,6 @@
 package Interpreter;
 
-public enum CmdClass {
+public enum CmdClass { // shell 功能及和
     empty,
     bg,
     fg,

@@ -67,11 +67,12 @@ public class Interpreter {
             System.out.println("[SyntaxError]: " + e.getMessage());
         }
     }
-    public void ProcessFile(InputStream in) {
+    public void ProcessFile(InputStream in) { // 从文件中读入指令并处理
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         String cmdline = null;
         try {
             while ((cmdline = reader.readLine()) != null) {
+                System.out.println(cmdline + "\n");
                 Read(cmdline);
             }
         } catch (Exception e) {
@@ -82,14 +83,6 @@ public class Interpreter {
         String[] elements = s.split("\\s+"); // 根据空格/回车/换行分隔
         ArrayList<String> elements_list = new ArrayList<String>(Arrays.asList(elements));
 
-        if (Objects.equals(elements[0], "myshell")){ // 如果开头是myshell，读入文件一次执行
-            try {
-                InputStream in = new FileInputStream(elements[1]); // 文件输入流
-                ProcessFile(in);
-            } catch (Exception e){
-                System.out.println("[RuntimeError]: " + "No such file to read!");
-            }
-        }
 
         if (Objects.equals(elements_list.get(0), "exec")) { // 如果开头是exec，后面直接执行
             elements_list.remove(0);

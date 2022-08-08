@@ -52,12 +52,14 @@ public class Command implements Runnable{
                 } catch (Exception e) {
                     System.out.println("[RuntimeError]");
                 }
+                break;
             case FILE_APPEND_OUT: // 输出到指定文件
                 try {
                     out = new FileOutputStream(outputFile, true);
                 } catch (Exception e) {
                     System.out.println("[RuntimeError]");
                 }
+                break;
         }
         switch (inType) {
             case STD_IN: // 标准输入
@@ -84,8 +86,6 @@ public class Command implements Runnable{
 
         try {
             switch (command) {
-                case bg:
-                case fg:
                 case jobs: // 展示线程信息
                     proc.Jobs(out);
                     break;
