@@ -2,62 +2,58 @@
 SYNOPSIS
     dir [ FILE ]
 
-<2> myshell - execute a shell file
-SYNOPSIS
-    myshell [ FILE ]
-
-<3> echo - display a line of text
+<2> echo - display a line of text
 SYNPOSIS
     echo [ STRING ]
 
-<4> exec - execute a file
+<3> exec - execute a file
 SYNOPSIS
     exec COMMAND [ ARGS ]
 
-<5> cd - change the working directory
+<4> cd - change the working directory
 SYNOPSIS
     cd [ DIR ]
 
-<6> pwd - print name of current/working directory
+<5> pwd - print name of current/working directory
 SYNOPSIS
-  6  pwd [ DIR ]
+  6  pwd
 
-<7> test - test whether an variable has been set
+<6> test - test whether an variable has been set
 SYNOPSIS
     test [ VAR ]
 
-<8> set - set parameters
+<7> set - set parameters
 SYNOPSIS
     set [ VAR ] [ VAL ]
 
-<9> time - display the current time
+<8> time - display the current time
 SYNOPSIS
     time
 
-<10> jobs - display status of jobs in the current session
+<9> jobs - display status of jobs in the current session
 SYNOPSIS
     jobs
 
-<11> umask - display the current mask in octal notation
+<10> umask - display the current mask in octal notation
 SYNOPSIS
     umask
 
-<12> environ - user environment
+<11> environ - user environment
 SYNOPSIS
     environ
 
-<13> exit - exit shell
+<12> exit - exit shell
 SYNOPSIS
     exit
 
-<14> help - get the manual
+<13> help - get the manual
 SYNOPSIS
     help
 
-<15> clr - clear the terminal screen
+<14> clr - clear the terminal screen
 SYNOPSIS
     clr
 
-<16> sleep - thread sleep for millisecond
+<15> sleep - thread sleep for millisecond
 SYNOPSIS
     sleep [ TIME ]

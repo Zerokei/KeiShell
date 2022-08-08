@@ -119,7 +119,7 @@ public class Command implements Runnable{
                 case time: // 显示时间
                     proc.Time(out);
                     break;
-                case test: // 测试某环境变量是否存在
+                case test: // 测in试某环境变量是否存在
                     proc.Test(in, out);
                     break;
                 case cd: // 进入目录
